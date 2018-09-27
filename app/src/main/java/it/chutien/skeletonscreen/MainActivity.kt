@@ -1,16 +1,15 @@
 package it.chutien.skeletonscreen
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.support.v7.widget.RecyclerView
-import com.facebook.shimmer.ShimmerFrameLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.DefaultItemAnimator
 import RecipeListAdapter
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.facebook.drawee.backends.pipeline.Fresco
-import io.reactivex.Scheduler
+import com.facebook.shimmer.ShimmerFrameLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = findViewById(R.id.recycler_view)
 
         cartList = ArrayList()
-        mAdapter = RecipeListAdapter(this, cartList)
+        mAdapter = RecipeListAdapter(this, cartList, ItemAnimation.RIGHT_LEFT)
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecyclerView?.setLayoutManager(mLayoutManager)

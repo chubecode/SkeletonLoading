@@ -5,15 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
+import it.chutien.skeletonscreen.ItemAnimation
 import it.chutien.skeletonscreen.R
 import it.chutien.skeletonscreen.Recipe
 
-class RecipeListAdapter(private val context: Context, private val cartList: List<Recipe>) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
+class RecipeListAdapter(private val context: Context, private val cartList: List<Recipe>, private val animation_type: Int) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
+
+
     override fun getItemCount(): Int {
         return cartList.size
     }
     // recipe
-
 
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -50,5 +52,29 @@ class RecipeListAdapter(private val context: Context, private val cartList: List
         holder.timestamp.text = timestamp
 
         holder.thumbnail.setImageURI(thumbnail)
+        setAnimation(holder.itemView, position)
     }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                on_attach = false
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
+    private var lastPosition = -1
+    private var on_attach = true
+
+
+    private fun setAnimation(itemView: View, position: Int) {
+        if (position > lastPosition) {
+            ItemAnimation.animate(itemView, if (on_attach) position else -1, animation_type)
+            lastPosition = position
+        }
+    }
+
+
 }
